@@ -12,11 +12,23 @@ module Roadie
 
       def find_stylesheet(name)
         if (asset = find_asset_in_pipeline(name))
-          Stylesheet.new("#{asset.pathname} (live compiled)", asset.to_s)
+          Stylesheet.new("#{filename(asset)} (live compiled)", asset.to_s)
         end
       end
 
       private
+      def sprockets_4_or_later?
+        Sprockets::VERSION.split('.')[0].to_i > 3
+      end
+
+      def filename(asset)
+        if sprockets_4_or_later?
+          asset.filename
+        else
+          asset.pathname
+        end
+      end
+
       def find_asset_in_pipeline(name)
         normalized_name = normalize_asset_name(name)
         @pipeline[normalized_name] || @pipeline[remove_asset_digest(normalized_name)]

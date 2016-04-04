@@ -38,7 +38,7 @@ if [[ $1 == "install" ]]; then
     (
       header "Rails app $(basename $app_path) with ruby $ruby_version"
 
-      if [[ $app_path == *rails_50 ]] && [[ $ruby_version != "2.2.2" ]] && [[ $ruby_version != "2.3.0" ]]; then
+      if [[ $app_path == rails_50* ]] && [[ $ruby_version != "2.2.2" ]] && [[ $ruby_version != "2.3.0" ]]; then
         echo "Skipping installing gems for $(basename $app_path) because dependencies are not support for ruby version $ruby_version"
       else
         cd $app_path
